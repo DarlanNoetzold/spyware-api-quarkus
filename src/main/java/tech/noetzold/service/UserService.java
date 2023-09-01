@@ -2,6 +2,7 @@ package tech.noetzold.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import tech.noetzold.model.User;
 import tech.noetzold.repository.UserRepository;
 
@@ -17,8 +18,10 @@ public class UserService {
         return userRepository.findAll().list();
     }
 
-    public void saveUsuario(User user){
+    @Transactional
+    public User saveUsuario(User user){
         userRepository.persist(user);
+        return user;
     }
 
 }
