@@ -1,6 +1,7 @@
 package tech.noetzold.controller;
 
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -19,12 +20,14 @@ public class UserController {
 
     @GET
     @Path("/listAll")
+    @RolesAllowed("admin")
     public List<User> listarTodos() {
         return userService.findAllUsuarios();
     }
 
     @POST
     @Path("/save")
+    @RolesAllowed("admin")
     public User salvar(User user) {
         return userService.saveUsuario(user);
     }
