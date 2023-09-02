@@ -1,4 +1,4 @@
-package tech.noetzold.spyware.model;
+package tech.noetzold.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
