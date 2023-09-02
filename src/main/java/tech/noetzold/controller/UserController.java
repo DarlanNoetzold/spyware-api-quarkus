@@ -18,7 +18,7 @@ public class UserController {
 
 
     @GET
-    @Path(("/listAll"))
+    @Path("/listAll")
     public List<User> listarTodos() {
         return userService.findAllUsuarios();
     }
