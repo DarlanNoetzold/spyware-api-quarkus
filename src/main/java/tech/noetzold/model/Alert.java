@@ -1,6 +1,5 @@
 package tech.noetzold.model;
 
-import org.hibernate.annotations.Type;
 import java.io.Serializable;
 import java.util.Calendar;
 
