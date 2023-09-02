@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="Usuario")
+@Entity(name="user_adapter")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "sequence", allocationSize = 50)
+    @GeneratedValue
     private Integer id;
     @Column(unique = true)
     private String login;
