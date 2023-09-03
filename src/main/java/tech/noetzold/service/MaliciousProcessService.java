@@ -23,7 +23,9 @@ public class MaliciousProcessService {
     public List<MaliciousProcess> findAllMaliciousProcess(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<MaliciousProcess> query = maliciousProcessRepository.findAll(sort);
-        return query.page(Page.of(page, size)).list();
+
+        int offset = (page - 1) * size;
+        return query.page(Page.of(offset, size)).list();
     }
 
     public MaliciousProcess findMaliciousProcessById(Long id){
