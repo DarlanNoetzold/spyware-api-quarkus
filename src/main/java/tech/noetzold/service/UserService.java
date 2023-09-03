@@ -7,7 +7,6 @@ import tech.noetzold.model.User;
 import tech.noetzold.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class UserService {
