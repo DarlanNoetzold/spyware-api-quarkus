@@ -1,4 +1,4 @@
-package tech.noetzold.spyware.service;
+package tech.noetzold.service;
 
 import io.quarkus.cache.CacheResult;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
