@@ -1,18 +1,19 @@
 package tech.noetzold.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.wildfly.common.annotation.NotNull;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-
 import jakarta.persistence.*;
-import lombok.Data;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Image implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "sequence", allocationSize = 50)
+    @SequenceGenerator(name = "sequence", sequenceName = "sequence")
     private Long id;
 
     @NotNull
@@ -21,41 +22,6 @@ public class Image implements Serializable {
     @NotNull
     @Lob
     private byte[] base64Img;
-
-    public Image() {
-    }
-
-    public Image(Long id, String productImg, @NotNull byte[] base64Img) {
-        this.id = id;
-        this.productImg = productImg;
-        this.base64Img = base64Img;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProductImg() {
-        return productImg;
-    }
-
-    public void setProductImg(String productImg) {
-        this.productImg = productImg;
-    }
-
-
-    public byte[] getBase64Img() throws UnsupportedEncodingException {
-        return this.base64Img;
-
-    }
-
-    public void setBase64Img(String base64Img) {
-        this.base64Img = Base64.getDecoder().decode(base64Img);
-   }
 
     @Override
     public int hashCode() {
