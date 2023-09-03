@@ -12,7 +12,8 @@ import org.wildfly.common.annotation.NotNull;
 @Entity
 public class MaliciousProcess {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
+    @SequenceGenerator(name = "sequence", sequenceName = "sequence", allocationSize = 50)
     private Long id;
     @NotNull
     private String nameExe;
