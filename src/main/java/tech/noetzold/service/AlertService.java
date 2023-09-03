@@ -17,23 +17,25 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-@CacheResult(cacheName = "alert")
 public class AlertService {
 
     @Inject
     AlertRepository alertaRepository;
 
+    @CacheResult(cacheName = "alert")
     public List<Alert> findAll(int page, int size, String sortBy) {
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<Alert> query = alertaRepository.findAll(sort);
         return query.page(Page.of(page, size)).list();
     }
 
+    @CacheResult(cacheName = "alert")
     public Alert findAlertaById(Long id) {
         Optional<Alert> optionalAlert = alertaRepository.findByIdOptional(id);
         return optionalAlert.orElseThrow(() -> new WebApplicationException("Alert not found", Response.Status.NOT_FOUND));
     }
 
+    @CacheResult(cacheName = "alert")
     public List<Alert> findAlertaByPcId(String pcId) {
         return alertaRepository.findAllByPcId(pcId);
     }
