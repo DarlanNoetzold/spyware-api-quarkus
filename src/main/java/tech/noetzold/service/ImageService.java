@@ -16,17 +16,18 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-@CacheResult(cacheName = "image")
 public class ImageService {
     @Inject
     ImageRepository imageRepository;
 
+    @CacheResult(cacheName = "image")
     public List<Image> findAllImages(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<Image> query = imageRepository.findAll(sort);
         return query.page(Page.of(page, size)).list();
     }
 
+    @CacheResult(cacheName = "image")
     public Image findImageById(Long id){
         Optional<Image> optionalImage = imageRepository.findByIdOptional(id);
         return optionalImage.orElseThrow(() -> new WebApplicationException("Image not found", Response.Status.NOT_FOUND));
