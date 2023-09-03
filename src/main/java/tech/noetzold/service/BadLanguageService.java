@@ -23,7 +23,9 @@ public class BadLanguageService {
     public List<BadLanguage> findAllBadLanguage(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<BadLanguage> query = badLanguageRepository.findAll(sort);
-        return query.page(Page.of(page, size)).list();
+
+        int offset = (page - 1) * size;
+        return query.page(Page.of(offset, size)).list();
     }
 
     public BadLanguage findBadLanguageById(Long id){
