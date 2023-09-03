@@ -8,7 +8,6 @@ import java.util.Base64;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
 @Entity
 public class Image implements Serializable {
     @Id
