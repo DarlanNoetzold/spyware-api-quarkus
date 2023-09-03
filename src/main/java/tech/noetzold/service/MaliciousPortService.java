@@ -23,7 +23,9 @@ public class MaliciousPortService {
     public List<MaliciousPort> findAllMaliciousPort(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<MaliciousPort> query = maliciousPortRepository.findAll(sort);
-        return query.page(Page.of(page, size)).list();
+
+        int offset = (page - 1) * size;
+        return query.page(Page.of(offset, size)).list();
     }
 
     public MaliciousPort findMaliciousPortById(Long id){
