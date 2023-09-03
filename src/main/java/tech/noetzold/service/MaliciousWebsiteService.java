@@ -23,7 +23,9 @@ public class MaliciousWebsiteService {
     public List<MaliciousWebsite> findAllMaliciousWebsite(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<MaliciousWebsite> query = maliciousWebsiteRepository.findAll(sort);
-        return query.page(Page.of(page, size)).list();
+
+        int offset = (page - 1) * size;
+        return query.page(Page.of(offset, size)).list();
     }
 
     public MaliciousWebsite findMaliciousWebsiteById(Long id){
