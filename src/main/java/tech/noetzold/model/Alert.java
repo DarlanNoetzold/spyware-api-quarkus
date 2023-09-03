@@ -14,17 +14,18 @@ import org.wildfly.common.annotation.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@RegisterForReflection
 public class Alert implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", sequenceName = "sequence", allocationSize = 50)
+    @SequenceGenerator(name = "sequence", sequenceName = "sequence")
     private Long id;
 
     @NotNull
     private String pcId;
 
     @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image_id")
     private Image image;
 
     private String processos;
@@ -56,16 +57,5 @@ public class Alert implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Alerta{" +
-                "id=" + id +
-                ", pcId='" + pcId + '\'' +
-                ", imagem=" + image +
-                ", processos='" + processos + '\'' +
-                ", data_cadastro=" + dataCadastro +
-                '}';
     }
 }
