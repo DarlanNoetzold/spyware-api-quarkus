@@ -9,7 +9,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class MaliciousWebsiteRepository implements PanacheRepository<MaliciousWebsite> {
 
-    public MaliciousWebsite findByName(String url) {
-        return find("url", url).firstResult();
+    public Optional<MaliciousWebsite> findByUrl(String url) {
+        return find("url", url).firstResultOptional();
     }
 }
