@@ -3,6 +3,7 @@ package tech.noetzold.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ import org.wildfly.common.annotation.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@RegisterForReflection
 public class Alert implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
@@ -29,7 +31,7 @@ public class Alert implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "data_cadastro", nullable = false)
-    private Calendar data_cadastro;
+    private Calendar dataCadastro;
 
     @Override
     public int hashCode() {
@@ -63,7 +65,7 @@ public class Alert implements Serializable {
                 ", pcId='" + pcId + '\'' +
                 ", imagem=" + image +
                 ", processos='" + processos + '\'' +
-                ", data_cadastro=" + data_cadastro +
+                ", data_cadastro=" + dataCadastro +
                 '}';
     }
 }
