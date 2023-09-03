@@ -6,10 +6,11 @@ import tech.noetzold.model.Image;
 import tech.noetzold.service.ImageService;
 
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.Base64;
 import java.util.Collection;
 
 @Path("/image")
@@ -23,7 +24,6 @@ public class ImageController {
 
     @GET
     @Path("/getAll")
-    @Transactional
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<Image> images = imageService.findAllImages(page, size, sortBy);
         if (images.isEmpty()) {
@@ -34,7 +34,6 @@ public class ImageController {
 
     @GET
     @Path("/get/{id}")
-    @Transactional
     public Response getImagemById(@PathParam("id") long id) {
         try {
             if (id <= 0)
@@ -59,7 +58,7 @@ public class ImageController {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
             logger.info("Create " + image.getId());
-            image.setBase64Img("");
+            image.setBase64Img(Base64.getDecoder().decode(""));
             return Response.status(Response.Status.CREATED).entity(image).build();
         } catch (Exception e) {
             e.printStackTrace();
