@@ -1,5 +1,6 @@
 package tech.noetzold.service;
 
+import io.quarkus.cache.CacheResult;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
+@CacheResult(cacheName = "image")
 public class ImageService {
     @Inject
     ImageRepository imageRepository;
