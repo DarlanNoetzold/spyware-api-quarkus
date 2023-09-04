@@ -22,7 +22,6 @@ public class ImageController {
     private static final Logger logger = Logger.getLogger(ImageController.class);
 
     @GET
-    @Path("/getAll")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<Image> images = imageService.findAllImages(page, size, sortBy);
         if (images.isEmpty()) {
@@ -34,7 +33,7 @@ public class ImageController {
     }
 
     @GET
-    @Path("/get/{id}")
+    @Path("/{id}")
     public Response getImagemById(@PathParam("id") long id) {
         try {
             if (id <= 0) {
@@ -56,7 +55,6 @@ public class ImageController {
     }
 
     @POST
-    @Path("/save")
     public Response save(Image image) {
         try {
             image = imageService.saveImage(image);
@@ -73,5 +71,13 @@ public class ImageController {
         }
         logger.error("Error to create image: " + image.getId());
         return Response.status(Response.Status.BAD_REQUEST).entity(image).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response remove(@PathParam("id") Long id) {
+        imageService.deleteImage(id);
+        logger.info("Remove Image: " + id);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }
