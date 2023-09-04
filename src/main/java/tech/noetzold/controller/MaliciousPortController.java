@@ -78,6 +78,6 @@ public class MaliciousPortController {
     public Response remove(@PathParam("id") Long id) {
         logger.info("Remove MaliciousPort: " + id);
         maliciousPortService.deleteMaliciousPortById(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.ACCEPTED).build();
     }
 }
