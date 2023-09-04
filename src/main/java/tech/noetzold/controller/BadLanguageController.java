@@ -22,7 +22,6 @@ public class BadLanguageController {
     private static final Logger logger = Logger.getLogger(BadLanguageController.class);
 
     @GET
-    @Path("/getAll")
     @Transactional
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<BadLanguage> badLanguages = badLanguageService.findAllBadLanguage(page, size, sortBy);
@@ -35,7 +34,7 @@ public class BadLanguageController {
     }
 
     @GET
-    @Path("/get/{id}")
+    @Path("/{id}")
     @Transactional
     public Response getBadLanguageById(@PathParam("id") long id) {
         if (id <= 0) {
@@ -52,7 +51,6 @@ public class BadLanguageController {
     }
 
     @POST
-    @Path("/save")
     public Response save(BadLanguage badLanguage) {
         if (badLanguage == null) {
             logger.error("Error to save badlanguage");
@@ -71,8 +69,8 @@ public class BadLanguageController {
     }
 
     @DELETE
-    @Path("/remove/{id}")
-    public Response remover(@PathParam("id") Long id) {
+    @Path("/{id}")
+    public Response remove(@PathParam("id") Long id) {
         badLanguageService.deleteBadLanguage(id);
         logger.info("Remove badLanguage: " + id);
         return Response.status(Response.Status.NO_CONTENT).build();
