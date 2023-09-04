@@ -1,0 +1,12 @@
+2023-09-03 22:46:58,803 hal9000 spyware-api-quarkus-dev.jar[21920] WARN  [io.qua.config] (Quarkus Main Thread) Unrecognized configuration key "quarkus.log.console.json" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+2023-09-03 22:46:58,803 hal9000 spyware-api-quarkus-dev.jar[21920] WARN  [io.qua.config] (Quarkus Main Thread) Unrecognized configuration key "quarkus.log.console.json.pretty-print" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+2023-09-03 22:47:00,737 hal9000 spyware-api-quarkus-dev.jar[21920] INFO  [io.sma.rea.mes.rabbitmq] (Quarkus Main Thread) SRMSG17036: RabbitMQ broker configured to localhost:49698 for channel quotes
+2023-09-03 22:47:00,751 hal9000 spyware-api-quarkus-dev.jar[21920] WARN  [io.sma.rea.mes.provider] (Quarkus Main Thread) SRMSG00207: Some components are not connected to either downstream consumers or upstream producers:
+	- IncomingConnector{channel:'requests', attribute:'mp.messaging.incoming.requests'} has no downstream
+	- OutgoingConnector{channel:'quotes', attribute:'mp.messaging.outgoing.quotes'} has no upstream
+
+2023-09-03 22:47:00,789 hal9000 spyware-api-quarkus-dev.jar[21920] INFO  [io.quarkus] (Quarkus Main Thread) spyware-api-quarkus 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.3.1) started in 12.389s. Listening on: http://localhost:9000
+2023-09-03 22:47:00,790 hal9000 spyware-api-quarkus-dev.jar[21920] INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2023-09-03 22:47:00,790 hal9000 spyware-api-quarkus-dev.jar[21920] INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cache, cdi, hibernate-orm, hibernate-orm-panache, jdbc-postgresql, narayana-jta, oidc, redis-client, resteasy-reactive, resteasy-reactive-jackson, security, smallrye-context-propagation, smallrye-reactive-messaging, smallrye-reactive-messaging-rabbitmq, vertx]
+2023-09-03 22:47:12,004 hal9000 spyware-api-quarkus-dev.jar[21920] INFO  [tec.noe.con.AlertController] (executor-thread-1) Save Alert message sended.
+2023-09-03 22:47:12,030 hal9000 spyware-api-quarkus-dev.jar[21920] INFO  [io.qua.htt.access-log] (executor-thread-1) 127.0.0.1 - - [03/Sep/2023:22:47:12 -0300] "POST /alert/save HTTP/1.1" 201 151
