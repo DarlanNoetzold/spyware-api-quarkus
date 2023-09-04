@@ -22,8 +22,6 @@ public class MaliciousPortController {
     private static final Logger logger = Logger.getLogger(MaliciousPortController.class);
 
     @GET
-    @Path("/getAll")
-    @Transactional
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<MaliciousPort> maliciousPorts = maliciousPortService.findAllMaliciousPort(page, size, sortBy);
         if (maliciousPorts.isEmpty()) {
@@ -35,8 +33,7 @@ public class MaliciousPortController {
     }
 
     @GET
-    @Path("/get/{id}")
-    @Transactional
+    @Path("/{id}")
     public Response getMaliciousPortById(@PathParam("id") long id) {
         if (id <= 0) {
             logger.error("Invalid id: " + id);
@@ -52,7 +49,6 @@ public class MaliciousPortController {
     }
 
     @POST
-    @Path("/save")
     public Response save(MaliciousPort maliciousPort) {
         if (maliciousPort == null || maliciousPort.getVulnarableBanners() == null) {
             logger.error("Invalid to save maliciousPort: " + maliciousPort);
@@ -78,8 +74,8 @@ public class MaliciousPortController {
     }
 
     @DELETE
-    @Path("/remove/{id}")
-    public Response remover(@PathParam("id") Long id) {
+    @Path("/{id}")
+    public Response remove(@PathParam("id") Long id) {
         logger.info("Remove MaliciousPort: " + id);
         maliciousPortService.deleteMaliciousPortById(id);
         return Response.status(Response.Status.NO_CONTENT).build();
