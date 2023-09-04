@@ -1,5 +1,6 @@
 package tech.noetzold.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
@@ -35,6 +36,7 @@ public class AlertController {
     private static final Logger logger = Logger.getLogger(AlertController.class);
 
     @GET
+    @RolesAllowed("admin")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         if (page <= 0 || size <= 0) {
             logger.error("Invalid page: " + page +" or size: "+ size);
@@ -47,6 +49,7 @@ public class AlertController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response getAlertId(@PathParam("id") Long id) {
         if (id <= 0) {
             logger.error("Invalid id" + id);
@@ -63,6 +66,7 @@ public class AlertController {
 
     @GET
     @Path("/pcId/{pcId}")
+    @RolesAllowed("admin")
     public Response getAlertPcId(@PathParam("pcId") String pcId) {
         if (pcId == null || pcId.isEmpty()) {
             logger.error("Error to get alert by pcId.");
@@ -78,6 +82,7 @@ public class AlertController {
     }
 
     @POST
+    @RolesAllowed("admin")
     public Response save(Alert alert) {
         if (alert == null || alert.getImage() == null || alert.getImage().getId() == null) {
             logger.error("Error to save alert.");
@@ -101,9 +106,10 @@ public class AlertController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response remove(@PathParam("id") Long id) {
         alertService.deleteAlertaById(id);
         logger.info("Remove alert: " + id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.ACCEPTED).build();
     }
 }
