@@ -78,6 +78,6 @@ public class ImageController {
     public Response remove(@PathParam("id") Long id) {
         imageService.deleteImage(id);
         logger.info("Remove Image: " + id);
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.ACCEPTED).build();
     }
 }
