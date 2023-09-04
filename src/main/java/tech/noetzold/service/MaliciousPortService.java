@@ -20,6 +20,7 @@ public class MaliciousPortService {
     @Inject
     MaliciousPortRepository maliciousPortRepository;
 
+    @Transactional
     public List<MaliciousPort> findAllMaliciousPort(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<MaliciousPort> query = maliciousPortRepository.findAll(sort);
@@ -28,6 +29,7 @@ public class MaliciousPortService {
         return query.page(Page.of(offset, size)).list();
     }
 
+    @Transactional
     public MaliciousPort findMaliciousPortById(Long id){
         Optional<MaliciousPort> optionalMaliciousPort = maliciousPortRepository.findByIdOptional(id);
         return optionalMaliciousPort.orElseThrow(() -> new WebApplicationException("MaliciousPort not found", Response.Status.NOT_FOUND));
@@ -44,6 +46,7 @@ public class MaliciousPortService {
         maliciousPortRepository.deleteById(id);
     }
 
+    @Transactional
     public MaliciousPort findMaliciousPortByVulnarableBanners(String vulnarableBanners) {
         return maliciousPortRepository.findByVulnarableBanners(vulnarableBanners).orElse(null);
     }
