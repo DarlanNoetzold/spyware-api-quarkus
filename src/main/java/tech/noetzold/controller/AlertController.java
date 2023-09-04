@@ -78,7 +78,6 @@ public class AlertController {
     }
 
     @POST
-    @Path("/save")
     public Response save(Alert alert) {
         if (alert == null || alert.getImage() == null || alert.getImage().getId() == null) {
             logger.error("Error to save alert.");
@@ -88,7 +87,7 @@ public class AlertController {
         Image optionalImage = imageService.findImageById(alert.getImage().getId());
         if (optionalImage == null) {
             logger.error("Invalid image.");
-            return Response.status(Response.Status.BAD_REQUEST).build()
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         alert.setImage(optionalImage);
@@ -101,8 +100,8 @@ public class AlertController {
     }
 
     @DELETE
-    @Path("/remove/{id}")
-    public Response remover(@PathParam("id") Long id) {
+    @Path("/{id}")
+    public Response remove(@PathParam("id") Long id) {
         alertService.deleteAlertaById(id);
         logger.info("Remove alert: " + id);
         return Response.status(Response.Status.NO_CONTENT).build();
