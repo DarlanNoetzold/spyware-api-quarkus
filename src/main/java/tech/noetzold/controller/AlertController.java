@@ -88,7 +88,7 @@ public class AlertController {
         Image optionalImage = imageService.findImageById(alert.getImage().getId());
         if (optionalImage == null) {
             logger.error("Invalid image.");
-            return null;
+            return Response.status(Response.Status.BAD_REQUEST).build()
         }
 
         alert.setImage(optionalImage);
