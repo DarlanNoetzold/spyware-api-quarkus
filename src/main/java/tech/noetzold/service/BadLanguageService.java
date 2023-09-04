@@ -20,6 +20,7 @@ public class BadLanguageService {
     @Inject
     BadLanguageRepository badLanguageRepository;
 
+    @Transactional
     public List<BadLanguage> findAllBadLanguage(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<BadLanguage> query = badLanguageRepository.findAll(sort);
@@ -28,6 +29,7 @@ public class BadLanguageService {
         return query.page(Page.of(offset, size)).list();
     }
 
+    @Transactional
     public BadLanguage findBadLanguageById(Long id){
         Optional<BadLanguage> optionalBadLanguage = badLanguageRepository.findByIdOptional(id);
         return optionalBadLanguage.orElseThrow(() -> new WebApplicationException("BadLanguage not found", Response.Status.NOT_FOUND));
@@ -42,6 +44,7 @@ public class BadLanguageService {
         badLanguageRepository.deleteById(id);
     }
 
+    @Transactional
     public BadLanguage findBadLanguageByWord(String word) {
         return badLanguageRepository.findByWord(word).orElse(null);
     }
