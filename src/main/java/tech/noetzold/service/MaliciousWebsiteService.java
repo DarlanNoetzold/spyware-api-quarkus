@@ -20,6 +20,7 @@ public class MaliciousWebsiteService {
     @Inject
     MaliciousWebsiteRepository maliciousWebsiteRepository;
 
+    @Transactional
     public List<MaliciousWebsite> findAllMaliciousWebsite(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<MaliciousWebsite> query = maliciousWebsiteRepository.findAll(sort);
@@ -28,6 +29,7 @@ public class MaliciousWebsiteService {
         return query.page(Page.of(offset, size)).list();
     }
 
+    @Transactional
     public MaliciousWebsite findMaliciousWebsiteById(Long id){
         Optional<MaliciousWebsite> optionalMaliciousWebsite = maliciousWebsiteRepository.findByIdOptional(id);
         return optionalMaliciousWebsite.orElseThrow(() -> new WebApplicationException("MaliciousWebsite not found", Response.Status.NOT_FOUND));
@@ -44,6 +46,7 @@ public class MaliciousWebsiteService {
         maliciousWebsiteRepository.deleteById(id);
     }
 
+    @Transactional
     public MaliciousWebsite findMaliciousWebsiteByUrl(String url) {
         return maliciousWebsiteRepository.findByUrl(url).orElse(null);
     }
