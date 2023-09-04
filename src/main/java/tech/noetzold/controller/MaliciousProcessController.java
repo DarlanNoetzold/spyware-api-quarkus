@@ -21,8 +21,6 @@ public class MaliciousProcessController {
     private static final Logger logger = Logger.getLogger(MaliciousProcessController.class);
 
     @GET
-    @Path("/getAll")
-    @Transactional
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<MaliciousProcess> maliciousProcesses = maliciousProcessService.findAllMaliciousProcess(page, size, sortBy);
         if (maliciousProcesses.isEmpty()) {
@@ -34,8 +32,7 @@ public class MaliciousProcessController {
     }
 
     @GET
-    @Path("/get/{id}")
-    @Transactional
+    @Path("/{id}")
     public Response getMaliciousProcessById(@PathParam("id") long id) {
         if (id <= 0) {
             logger.error("Invalid id: " + id);
@@ -51,7 +48,6 @@ public class MaliciousProcessController {
     }
 
     @POST
-    @Path("/save")
     public Response save(MaliciousProcess maliciousProcess) {
         if (maliciousProcess == null) {
             logger.error("Invalid MaliciousProcess: " + maliciousProcess);
@@ -71,8 +67,8 @@ public class MaliciousProcessController {
     }
 
     @DELETE
-    @Path("/remove/{id}")
-    public Response remover(@PathParam("id") Long id) {
+    @Path("/{id}")
+    public Response remove(@PathParam("id") Long id) {
         maliciousProcessService.deleteProcessById(id);
         logger.info("Remove MaliciousProcess: " + id);
         return Response.status(Response.Status.NO_CONTENT).build();
