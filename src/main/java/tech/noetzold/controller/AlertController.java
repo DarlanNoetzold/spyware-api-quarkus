@@ -4,6 +4,7 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
 import tech.noetzold.model.Alert;
+import tech.noetzold.model.Image;
 import tech.noetzold.service.AlertService;
 
 import jakarta.inject.Inject;
@@ -11,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import tech.noetzold.service.ImageService;
 
 import java.util.Base64;
 import java.util.List;
@@ -22,6 +24,10 @@ public class AlertController {
 
     @Inject
     AlertService alertService;
+
+    @Inject
+    ImageService imageService;
+
 
     @Channel("alerts")
     Emitter<Alert> quoteRequestEmitter;
@@ -78,6 +84,14 @@ public class AlertController {
             logger.error("Error to save alert.");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        Image optionalImage = imageService.findImageById(alert.getImage().getId());
+        if (optionalImage == null) {
+            logger.error("Invalid image.");
+            return null;
+        }
+
+        alert.setImage(optionalImage);
 
         quoteRequestEmitter.send(alert);
         logger.info("Save Alert message sended.");
