@@ -1,5 +1,7 @@
 package tech.noetzold.consumer;
 
+import io.quarkus.cache.CacheInvalidate;
+import io.quarkus.cache.CacheInvalidateAll;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -18,8 +20,6 @@ public class AlertConsumer {
     @Inject
     AlertService alertService;
 
-    @Inject
-    ImageService imageService;
 
     private static final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
@@ -27,11 +27,6 @@ public class AlertConsumer {
     @Blocking
     public Alert process(Alert incomingAlert) {
         incomingAlert.setDataCadastro(Calendar.getInstance());
-        Image optionalImage = imageService.findImageById(incomingAlert.getImage().getId());
-        if (optionalImage == null) {
-            return null;
-        }
-        incomingAlert.setImage(optionalImage);
 
         alertService.saveAlert(incomingAlert);
         logger.info("Create Alert " + incomingAlert.getId() + " for user " + incomingAlert.getPcId() + " generate by " + incomingAlert.getImage().getProductImg());
