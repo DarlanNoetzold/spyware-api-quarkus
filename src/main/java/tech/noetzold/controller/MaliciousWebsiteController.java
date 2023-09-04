@@ -21,8 +21,6 @@ public class MaliciousWebsiteController {
     private static final Logger logger = Logger.getLogger(MaliciousWebsiteController.class);
 
     @GET
-    @Path("/getAll")
-    @Transactional
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<MaliciousWebsite> maliciousWebsites = maliciousWebsiteService.findAllMaliciousWebsite(page, size, sortBy);
         if (maliciousWebsites.isEmpty()) {
@@ -34,8 +32,7 @@ public class MaliciousWebsiteController {
     }
 
     @GET
-    @Path("/get/{id}")
-    @Transactional
+    @Path("/{id}")
     public Response getMaliciousWebsiteById(@PathParam("id") long id) {
         if (id <= 0) {
             logger.error("Invalid id: " + id);
@@ -51,7 +48,6 @@ public class MaliciousWebsiteController {
     }
 
     @POST
-    @Path("/save")
     public Response save(MaliciousWebsite maliciousWebsite) {
         if (maliciousWebsite == null) {
             logger.error("Invalid MaliciousWebsite.");
@@ -77,8 +73,8 @@ public class MaliciousWebsiteController {
     }
 
     @DELETE
-    @Path("/remove/{id}")
-    public Response remover(@PathParam("id") Long id) {
+    @Path("/{id}")
+    public Response remove(@PathParam("id") Long id) {
         maliciousWebsiteService.deleteWebsiteById(id);
         logger.info("Remove MaliciousWebsite: " + id);
         return Response.status(Response.Status.NO_CONTENT).build();
