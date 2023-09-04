@@ -1,5 +1,6 @@
 package tech.noetzold.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
 import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.service.MaliciousProcessService;
@@ -21,6 +22,7 @@ public class MaliciousProcessController {
     private static final Logger logger = Logger.getLogger(MaliciousProcessController.class);
 
     @GET
+    @RolesAllowed("admin")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<MaliciousProcess> maliciousProcesses = maliciousProcessService.findAllMaliciousProcess(page, size, sortBy);
         if (maliciousProcesses.isEmpty()) {
@@ -33,6 +35,7 @@ public class MaliciousProcessController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response getMaliciousProcessById(@PathParam("id") long id) {
         if (id <= 0) {
             logger.error("Invalid id: " + id);
@@ -48,6 +51,7 @@ public class MaliciousProcessController {
     }
 
     @POST
+    @RolesAllowed("admin")
     public Response save(MaliciousProcess maliciousProcess) {
         if (maliciousProcess == null) {
             logger.error("Invalid MaliciousProcess: " + maliciousProcess);
@@ -68,6 +72,7 @@ public class MaliciousProcessController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response remove(@PathParam("id") Long id) {
         maliciousProcessService.deleteProcessById(id);
         logger.info("Remove MaliciousProcess: " + id);

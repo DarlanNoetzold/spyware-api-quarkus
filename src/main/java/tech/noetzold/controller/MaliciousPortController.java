@@ -1,5 +1,6 @@
 package tech.noetzold.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
 import tech.noetzold.model.MaliciousPort;
 import tech.noetzold.service.MaliciousPortService;
@@ -22,6 +23,7 @@ public class MaliciousPortController {
     private static final Logger logger = Logger.getLogger(MaliciousPortController.class);
 
     @GET
+    @RolesAllowed("admin")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<MaliciousPort> maliciousPorts = maliciousPortService.findAllMaliciousPort(page, size, sortBy);
         if (maliciousPorts.isEmpty()) {
@@ -34,6 +36,7 @@ public class MaliciousPortController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response getMaliciousPortById(@PathParam("id") long id) {
         if (id <= 0) {
             logger.error("Invalid id: " + id);
@@ -49,6 +52,7 @@ public class MaliciousPortController {
     }
 
     @POST
+    @RolesAllowed("admin")
     public Response save(MaliciousPort maliciousPort) {
         if (maliciousPort == null || maliciousPort.getVulnarableBanners() == null) {
             logger.error("Invalid to save maliciousPort: " + maliciousPort);
@@ -75,6 +79,7 @@ public class MaliciousPortController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response remove(@PathParam("id") Long id) {
         logger.info("Remove MaliciousPort: " + id);
         maliciousPortService.deleteMaliciousPortById(id);

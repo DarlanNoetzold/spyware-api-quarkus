@@ -1,5 +1,6 @@
 package tech.noetzold.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
 import tech.noetzold.model.BadLanguage;
 import tech.noetzold.service.BadLanguageService;
@@ -22,7 +23,7 @@ public class BadLanguageController {
     private static final Logger logger = Logger.getLogger(BadLanguageController.class);
 
     @GET
-    @Transactional
+    @RolesAllowed("admin")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<BadLanguage> badLanguages = badLanguageService.findAllBadLanguage(page, size, sortBy);
         if (badLanguages.isEmpty()) {
@@ -35,7 +36,7 @@ public class BadLanguageController {
 
     @GET
     @Path("/{id}")
-    @Transactional
+    @RolesAllowed("admin")
     public Response getBadLanguageById(@PathParam("id") long id) {
         if (id <= 0) {
             logger.error("Invalid id: " + id);
@@ -51,6 +52,7 @@ public class BadLanguageController {
     }
 
     @POST
+    @RolesAllowed("admin")
     public Response save(BadLanguage badLanguage) {
         if (badLanguage == null) {
             logger.error("Error to save badlanguage");
@@ -70,6 +72,7 @@ public class BadLanguageController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response remove(@PathParam("id") Long id) {
         badLanguageService.deleteBadLanguage(id);
         logger.info("Remove badLanguage: " + id);

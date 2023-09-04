@@ -1,5 +1,6 @@
 package tech.noetzold.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
 import tech.noetzold.model.Image;
 import tech.noetzold.service.ImageService;
@@ -22,6 +23,7 @@ public class ImageController {
     private static final Logger logger = Logger.getLogger(ImageController.class);
 
     @GET
+    @RolesAllowed("admin")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<Image> images = imageService.findAllImages(page, size, sortBy);
         if (images.isEmpty()) {
@@ -34,6 +36,7 @@ public class ImageController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response getImagemById(@PathParam("id") long id) {
         try {
             if (id <= 0) {
@@ -55,6 +58,7 @@ public class ImageController {
     }
 
     @POST
+    @RolesAllowed("admin")
     public Response save(Image image) {
         try {
             image = imageService.saveImage(image);
@@ -75,6 +79,7 @@ public class ImageController {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response remove(@PathParam("id") Long id) {
         imageService.deleteImage(id);
         logger.info("Remove Image: " + id);
