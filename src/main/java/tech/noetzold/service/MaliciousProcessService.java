@@ -20,6 +20,7 @@ public class MaliciousProcessService {
     @Inject
     MaliciousProcessRepository maliciousProcessRepository;
 
+    @Transactional
     public List<MaliciousProcess> findAllMaliciousProcess(int page, int size, String sortBy){
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<MaliciousProcess> query = maliciousProcessRepository.findAll(sort);
@@ -28,6 +29,7 @@ public class MaliciousProcessService {
         return query.page(Page.of(offset, size)).list();
     }
 
+    @Transactional
     public MaliciousProcess findMaliciousProcessById(Long id){
         Optional<MaliciousProcess> optionalMaliciousProcess = maliciousProcessRepository.findByIdOptional(id);
         return optionalMaliciousProcess.orElseThrow(() -> new WebApplicationException("MaliciousProcess not found", Response.Status.NOT_FOUND));
@@ -44,6 +46,7 @@ public class MaliciousProcessService {
         maliciousProcessRepository.deleteById(id);
     }
 
+    @Transactional
     public MaliciousProcess findMaliciousProcessByNameExe(String nameExe) {
         return maliciousProcessRepository.findByNameExe(nameExe).orElse(null);
     }
