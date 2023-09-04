@@ -2,11 +2,8 @@ package tech.noetzold.controller;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 import tech.noetzold.model.Alert;
-import tech.noetzold.model.Image;
-import tech.noetzold.repository.ImageRepository;
 import tech.noetzold.service.AlertService;
 
 import jakarta.inject.Inject;
@@ -29,14 +26,16 @@ public class AlertController {
     @Channel("alerts")
     Emitter<Alert> quoteRequestEmitter;
 
-    private static final Logger logger = LoggerFactory.getLogger(AlertController.class);
+    private static final Logger logger = Logger.getLogger(AlertController.class);
 
     @GET
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         if (page <= 0 || size <= 0) {
+            logger.error("Invalid page: " + page +" or size: "+ size);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         List<Alert> alerts = alertService.findAll(page, size,sortBy);
+        logger.info("Returned alerts quantity: " + alerts.size());
         return Response.ok(alerts).build();
     }
 
@@ -44,12 +43,15 @@ public class AlertController {
     @Path("/{id}")
     public Response getAlertId(@PathParam("id") Long id) {
         if (id <= 0) {
+            logger.error("Invalid id" + id);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         Alert alert = alertService.findAlertaById(id);
         if (alert == null) {
+            logger.error("There is no alert with id: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        logger.info("Returned alert: " + alert);
         return Response.ok(alert).build();
     }
 
@@ -57,12 +59,15 @@ public class AlertController {
     @Path("/pcId/{pcId}")
     public Response getAlertPcId(@PathParam("pcId") String pcId) {
         if (pcId == null || pcId.isEmpty()) {
+            logger.error("Error to get alert by pcId.");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         List<Alert> alerts = alertService.findAlertaByPcId(pcId);
         if (alerts == null || alerts.isEmpty()) {
+            logger.error("There is no alert with pcId: " + pcId);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        logger.info("Returned alerts quantity: " + alerts.size());
         return Response.ok(alerts).build();
     }
 
@@ -70,11 +75,12 @@ public class AlertController {
     @Path("/save")
     public Response save(Alert alert) {
         if (alert == null || alert.getImage() == null || alert.getImage().getId() == null) {
+            logger.error("Error to save alert.");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         quoteRequestEmitter.send(alert);
-
+        logger.info("Save Alert message sended.");
         alert.getImage().setBase64Img(Base64.getDecoder().decode(""));
 
         return Response.status(Response.Status.CREATED).entity(alert).build();
