@@ -1,7 +1,6 @@
 package tech.noetzold.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 import tech.noetzold.model.BadLanguage;
 import tech.noetzold.service.BadLanguageService;
 
@@ -20,7 +19,7 @@ public class BadLanguageController {
     @Inject
     BadLanguageService badLanguageService;
 
-    private static final Logger logger = LoggerFactory.getLogger(BadLanguageController.class);
+    private static final Logger logger = Logger.getLogger(BadLanguageController.class);
 
     @GET
     @Path("/getAll")
@@ -28,8 +27,10 @@ public class BadLanguageController {
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
         Collection<BadLanguage> badLanguages = badLanguageService.findAllBadLanguage(page, size, sortBy);
         if (badLanguages.isEmpty()) {
+            logger.error("There is no badLanguage.");
             return Response.status(Response.Status.NO_CONTENT).build();
         }
+        logger.info("BadLanguage returned quantity: " + badLanguages.size());
         return Response.ok(badLanguages).build();
     }
 
@@ -38,12 +39,15 @@ public class BadLanguageController {
     @Transactional
     public Response getBadLanguageById(@PathParam("id") long id) {
         if (id <= 0) {
+            logger.error("Invalid id: " + id);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         BadLanguage badLanguage = badLanguageService.findBadLanguageById(id);
         if (badLanguage == null) {
+            logger.error("There is no badLanguage with id: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        logger.info("BadLanguage returned: " + badLanguage.getWord());
         return Response.ok(badLanguage).build();
     }
 
@@ -51,6 +55,7 @@ public class BadLanguageController {
     @Path("/save")
     public Response save(BadLanguage badLanguage) {
         if (badLanguage == null) {
+            logger.error("Error to save badlanguage");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
