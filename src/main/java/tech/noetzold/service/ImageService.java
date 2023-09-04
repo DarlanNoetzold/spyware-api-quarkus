@@ -42,7 +42,7 @@ public class ImageService {
     }
 
     @Transactional
-    public void deleteImagem(Image image){
-        imageRepository.delete(image);
+    public void deleteImage(Long id){
+        imageRepository.deleteById(id);
     }
 }
