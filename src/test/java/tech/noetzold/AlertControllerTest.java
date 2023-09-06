@@ -26,7 +26,7 @@ public class AlertControllerTest {
     @TestSecurity(user = "admin", roles = {"admin"})
     public void testGetAllAlerts() {
         when()
-                .get("/alert?page=1&size=10&sortBy=id")
+                .get("http://localhost:9000/alert?page=1&size=10&sortBy=id")
                 .then()
                 .statusCode(200)
                 .body(CoreMatchers.containsString("alert"));
