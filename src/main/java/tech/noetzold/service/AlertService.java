@@ -37,7 +37,7 @@ public class AlertService {
         return optionalAlert.orElse(null);
     }
 
-    @CacheResult(cacheName = "alert")
+    @CacheResult(cacheName = "listalert")
     @Transactional
     public List<Alert> findAlertaByPcId(String pcId) {
         return alertaRepository.findAllByPcId(pcId);
