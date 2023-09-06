@@ -60,7 +60,7 @@ public class AlertController {
             logger.error("There is no alert with id: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        logger.info("Returned alert: " + alert);
+        logger.info("Returned alert: " + alert.getId());
         return Response.ok(alert).build();
     }
 
