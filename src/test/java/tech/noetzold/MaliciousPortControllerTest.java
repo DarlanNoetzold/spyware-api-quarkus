@@ -65,7 +65,7 @@ public class MaliciousPortControllerTest {
         given()
                 .auth().oauth2(accessToken)
                 .when()
-                .get("http://localhost:9000/port/502")
+                .get("http://localhost:9000/port/101")
                 .then()
                 .statusCode(200);
     }
