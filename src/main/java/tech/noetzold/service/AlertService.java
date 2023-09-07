@@ -1,5 +1,7 @@
 package tech.noetzold.service;
 
+import io.quarkus.cache.CacheInvalidate;
+import io.quarkus.cache.CacheInvalidateAll;
 import io.quarkus.cache.CacheResult;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
@@ -20,14 +22,14 @@ public class AlertService {
     @Inject
     AlertRepository alertaRepository;
 
-    @CacheResult(cacheName = "listalert")
+
     @Transactional
     public List<Alert> findAll(int page, int size, String sortBy) {
         Sort sort = Sort.ascending(sortBy);
         PanacheQuery<Alert> query = alertaRepository.findAll(sort);
 
         int offset = (page - 1) * size;
-        return query.page(Page.of(offset, size)).list();
+        return query.range(offset, size*page).list();
     }
 
     @CacheResult(cacheName = "alert")
@@ -44,6 +46,8 @@ public class AlertService {
     }
 
     @Transactional
+    @CacheInvalidateAll(cacheName = "listalert")
+    @CacheInvalidateAll(cacheName = "alert")
     public Alert saveAlert(Alert alert) {
         alertaRepository.persist(alert);
         return alert;
