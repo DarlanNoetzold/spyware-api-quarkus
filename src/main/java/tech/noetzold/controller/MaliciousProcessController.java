@@ -6,7 +6,6 @@ import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.service.MaliciousProcessService;
 
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
