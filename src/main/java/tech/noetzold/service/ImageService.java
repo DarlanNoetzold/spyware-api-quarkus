@@ -2,7 +2,6 @@ package tech.noetzold.service;
 
 import io.quarkus.cache.CacheResult;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -26,7 +25,7 @@ public class ImageService {
         PanacheQuery<Image> query = imageRepository.findAll(sort);
 
         int offset = (page - 1) * size;
-        return query.page(Page.of(offset, size)).list();
+        return query.range(offset, size*page).list();
     }
     @CacheResult(cacheName = "image")
     @Transactional
