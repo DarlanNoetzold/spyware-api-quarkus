@@ -67,7 +67,7 @@ public class BadLanguageControllerTest {
                 .when()
                 .get("http://localhost:9000/language/1")
                 .then()
-                .statusCode(200);
+                .statusCode(404);
     }
 
     @Test
