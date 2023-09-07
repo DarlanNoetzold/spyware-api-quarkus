@@ -15,3 +15,21 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+  keycloak:
+    image: quay.io/keycloak/keycloak:17.0.0
+    container_name: keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8180:8080"
+    command: start-dev
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spywareAPIquarkus
+    ports:
+      - "5432:5432"
