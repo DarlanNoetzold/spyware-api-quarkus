@@ -96,6 +96,6 @@ public class BadLanguageController {
     public Response remove(@PathParam("id") Long id) {
         badLanguageService.deleteBadLanguage(id);
         logger.info("Remove badLanguage: " + id);
-        return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.ACCEPTED).entity(new BadLanguage(0L, "BadLanguage removed")).build();
     }
 }
