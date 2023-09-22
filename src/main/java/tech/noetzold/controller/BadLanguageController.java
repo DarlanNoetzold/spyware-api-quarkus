@@ -70,6 +70,26 @@ public class BadLanguageController {
         return Response.ok(badLanguage).status(Response.Status.CREATED).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public Response update(@PathParam("id") long id, BadLanguage updatedBadLanguage) {
+        if (id <= 0 || updatedBadLanguage == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        BadLanguage existingBadLanguage = badLanguageService.findBadLanguageById(id);
+        if (existingBadLanguage == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        existingBadLanguage.setWord(updatedBadLanguage.getWord());
+
+        BadLanguage updated = badLanguageService.updateBadLanguage(existingBadLanguage);
+
+        return Response.ok(updated).build();
+    }
+
     @DELETE
     @Path("/{id}")
     @RolesAllowed("admin")
