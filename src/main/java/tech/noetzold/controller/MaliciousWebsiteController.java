@@ -2,6 +2,7 @@ package tech.noetzold.controller;
 
 import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
+import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.model.MaliciousWebsite;
 import tech.noetzold.service.MaliciousWebsiteService;
 
@@ -73,6 +74,25 @@ public class MaliciousWebsiteController {
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+    }
+
+    @PUT
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public Response update(@PathParam("id") long id, MaliciousWebsite updatedMaliciousWebsite) {
+        if (id <= 0 || updatedMaliciousWebsite == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        MaliciousWebsite existingMaliciousWebsite = maliciousWebsiteService.findMaliciousWebsiteById(id);
+        if (updatedMaliciousWebsite == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        existingMaliciousWebsite.setUrl(updatedMaliciousWebsite.getUrl());
+        MaliciousWebsite updated = maliciousWebsiteService.updateMaliciousProcess(existingMaliciousWebsite);
+
+        return Response.ok(updated).build();
     }
 
     @DELETE
