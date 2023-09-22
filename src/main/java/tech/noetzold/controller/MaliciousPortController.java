@@ -50,6 +50,25 @@ public class MaliciousPortController {
         return Response.ok(maliciousPort).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public Response update(@PathParam("id") long id, MaliciousPort updatedMaliciousPort) {
+        if (id <= 0 || updatedMaliciousPort == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        MaliciousPort existingMaliciousPort = maliciousPortService.findMaliciousPortById(id);
+        if (existingMaliciousPort == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        existingMaliciousPort.setVulnarableBanners(updatedMaliciousPort.getVulnarableBanners());
+        MaliciousPort updated = maliciousPortService.updateMaliciousPort(existingMaliciousPort);
+
+        return Response.ok(updated).build();
+    }
+
     @POST
     @RolesAllowed("admin")
     public Response save(MaliciousPort maliciousPort) {
