@@ -44,6 +44,22 @@ public class BadLanguageService {
     }
 
     @Transactional
+    public BadLanguage updateBadLanguage(BadLanguage updatedBadLanguage) {
+        if (updatedBadLanguage == null || updatedBadLanguage.getId() == null) {
+            throw new WebApplicationException("Invalid data for BadLanguage update", Response.Status.BAD_REQUEST);
+        }
+
+        BadLanguage existingBadLanguage = findBadLanguageById(updatedBadLanguage.getId());
+        if (existingBadLanguage == null) {
+            throw new WebApplicationException("BadLanguage not found", Response.Status.NOT_FOUND);
+        }
+
+        existingBadLanguage.setWord(updatedBadLanguage.getWord());
+        badLanguageRepository.persist(existingBadLanguage);
+
+        return existingBadLanguage; // Retorna o BadLanguage atualizado
+    }
+    @Transactional
     public BadLanguage findBadLanguageByWord(String word) {
         return badLanguageRepository.findByWord(word).orElse(null);
     }
