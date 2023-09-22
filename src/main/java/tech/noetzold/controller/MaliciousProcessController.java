@@ -69,6 +69,25 @@ public class MaliciousProcessController {
         return Response.ok(maliciousProcess).status(Response.Status.CREATED).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public Response update(@PathParam("id") long id, MaliciousProcess updatedMaliciousProcess) {
+        if (id <= 0 || updatedMaliciousProcess == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        MaliciousProcess existingMaliciousProcess = maliciousProcessService.findMaliciousProcessById(id);
+        if (existingMaliciousProcess == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        existingMaliciousProcess.setNameExe(updatedMaliciousProcess.getNameExe());
+        MaliciousProcess updated = maliciousProcessService.updateMaliciousProcess(existingMaliciousProcess);
+
+        return Response.ok(updated).build();
+    }
+
     @DELETE
     @Path("/{id}")
     @RolesAllowed("admin")
