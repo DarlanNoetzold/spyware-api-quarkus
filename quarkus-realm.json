@@ -1,6 +1,6 @@
 {
   "id" : "36382947-8ffa-4a8a-9881-2b7eeb84f800",
-  "realm" : "quarkus",
+  "realm" : "quarkus1",
   "notBefore" : 0,
   "defaultSignatureAlgorithm" : "RS256",
   "revokeRefreshToken" : false,
@@ -414,7 +414,7 @@
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
     "redirectUris" : [ "/realms/quarkus/account/*" ],
-    "webOrigins" : [ ],
+    "webOrigins" : ["*"],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
