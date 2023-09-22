@@ -41,6 +41,23 @@ public class MaliciousProcessService {
     }
 
     @Transactional
+    public MaliciousProcess updateMaliciousProcess(MaliciousProcess updatedMaliciousProcess) {
+        if (updatedMaliciousProcess == null || updatedMaliciousProcess.getId() == null) {
+            throw new WebApplicationException("Invalid data for MaliciousProcess update", Response.Status.BAD_REQUEST);
+        }
+
+        MaliciousProcess existingMaliciousProcess = findMaliciousProcessById(updatedMaliciousProcess.getId());
+        if (existingMaliciousProcess == null) {
+            throw new WebApplicationException("MaliciousProcess not found", Response.Status.NOT_FOUND);
+        }
+
+        existingMaliciousProcess.setNameExe(updatedMaliciousProcess.getNameExe());
+        maliciousProcessRepository.persist(existingMaliciousProcess);
+
+        return existingMaliciousProcess;
+    }
+
+    @Transactional
     public void deleteProcessById(Long id){
         maliciousProcessRepository.deleteById(id);
     }
