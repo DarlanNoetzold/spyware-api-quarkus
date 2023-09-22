@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
+import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.model.MaliciousWebsite;
 import tech.noetzold.repository.MaliciousWebsiteRepository;
 
@@ -38,6 +39,23 @@ public class MaliciousWebsiteService {
     public MaliciousWebsite saveMaliciousWebsite(MaliciousWebsite maliciousPort){
         maliciousWebsiteRepository.persist(maliciousPort);
         return maliciousPort;
+    }
+
+    @Transactional
+    public MaliciousWebsite updateMaliciousProcess(MaliciousWebsite updatedMaliciousWebsite) {
+        if (updatedMaliciousWebsite == null || updatedMaliciousWebsite.getId() == null) {
+            throw new WebApplicationException("Invalid data for MaliciousProcess update", Response.Status.BAD_REQUEST);
+        }
+
+        MaliciousWebsite existingMaliciousWebsite = findMaliciousWebsiteById(updatedMaliciousWebsite.getId());
+        if (existingMaliciousWebsite == null) {
+            throw new WebApplicationException("MaliciousProcess not found", Response.Status.NOT_FOUND);
+        }
+
+        existingMaliciousWebsite.setUrl(updatedMaliciousWebsite.getUrl());
+        maliciousWebsiteRepository.persist(existingMaliciousWebsite);
+
+        return existingMaliciousWebsite;
     }
 
     @Transactional
