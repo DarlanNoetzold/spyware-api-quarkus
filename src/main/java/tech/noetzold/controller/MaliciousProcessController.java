@@ -94,6 +94,6 @@ public class MaliciousProcessController {
     public Response remove(@PathParam("id") Long id) {
         maliciousProcessService.deleteProcessById(id);
         logger.info("Remove MaliciousProcess: " + id);
-        return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.ACCEPTED).entity(new MaliciousProcess(0L, "MaliciousProcess removed")).build();
     }
 }
