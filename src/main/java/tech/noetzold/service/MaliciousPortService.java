@@ -41,6 +41,23 @@ public class MaliciousPortService {
     }
 
     @Transactional
+    public MaliciousPort updateMaliciousPort(MaliciousPort updatedMaliciousPort) {
+        if (updatedMaliciousPort == null || updatedMaliciousPort.getId() == null) {
+            throw new WebApplicationException("Invalid data for MaliciousPort update", Response.Status.BAD_REQUEST);
+        }
+
+        MaliciousPort existingMaliciousPort = findMaliciousPortById(updatedMaliciousPort.getId());
+        if (existingMaliciousPort == null) {
+            throw new WebApplicationException("MaliciousPort not found", Response.Status.NOT_FOUND);
+        }
+
+        existingMaliciousPort.setVulnarableBanners(updatedMaliciousPort.getVulnarableBanners());
+        maliciousPortRepository.persist(existingMaliciousPort);
+
+        return existingMaliciousPort;
+    }
+
+    @Transactional
     public void deleteMaliciousPortById(Long id){
         maliciousPortRepository.deleteById(id);
     }
