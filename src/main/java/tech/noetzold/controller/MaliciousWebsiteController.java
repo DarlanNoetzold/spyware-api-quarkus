@@ -101,7 +101,7 @@ public class MaliciousWebsiteController {
     public Response remove(@PathParam("id") Long id) {
         maliciousWebsiteService.deleteWebsiteById(id);
         logger.info("Remove MaliciousWebsite: " + id);
-        return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.ACCEPTED).entity(new MaliciousWebsite(0L ,"MaliciousWebsite removed")).build();
     }
 }
 
