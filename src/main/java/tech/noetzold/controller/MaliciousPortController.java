@@ -101,6 +101,6 @@ public class MaliciousPortController {
     public Response remove(@PathParam("id") Long id) {
         logger.info("Remove MaliciousPort: " + id);
         maliciousPortService.deleteMaliciousPortById(id);
-        return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.ACCEPTED).entity(new MaliciousPort(0L, "MaliciousPort removed")).build();
     }
 }
