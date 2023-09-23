@@ -28,6 +28,7 @@ public class Alert implements Serializable {
     @JoinColumn(name = "image_id")
     private Image image;
 
+    @Column(columnDefinition = "TEXT")
     private String processos;
 
     @Temporal(TemporalType.DATE)
