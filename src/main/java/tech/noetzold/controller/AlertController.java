@@ -66,7 +66,7 @@ public class AlertController {
 
     @GET
     @Path("/pcId/{pcId}")
-    @RolesAllowed("admin")
+    @RolesAllowed("user")
     public Response getAlertPcId(@PathParam("pcId") String pcId) {
         if (pcId == null || pcId.isEmpty()) {
             logger.error("Error to get alert by pcId.");
