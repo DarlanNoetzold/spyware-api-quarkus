@@ -96,6 +96,7 @@ public class AlertController {
         }
 
         alert.setImage(optionalImage);
+        alert.setId(null);
 
         quoteRequestEmitter.send(alert);
         logger.info("Save Alert message sended.");
