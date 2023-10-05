@@ -25,7 +25,7 @@ public class ImageService {
         PanacheQuery<Image> query = imageRepository.findAll(sort);
 
         int offset = (page - 1) * size;
-        return query.range(offset, size*page).list();
+        return query.range(offset, (size-1)*page).list();
     }
     @CacheResult(cacheName = "image")
     @Transactional
