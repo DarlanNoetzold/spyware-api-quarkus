@@ -27,7 +27,6 @@ public class AlertConsumer {
     @Blocking
     public Alert process(Alert incomingAlert) {
         incomingAlert.setDataCadastro(Calendar.getInstance());
-
         alertService.saveAlert(incomingAlert);
         logger.info("Create Alert " + incomingAlert.getId() + " for user " + incomingAlert.getPcId() + " generate by " + incomingAlert.getImage().getProductImg());
 
