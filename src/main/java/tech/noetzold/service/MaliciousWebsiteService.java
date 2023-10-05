@@ -7,7 +7,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
-import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.model.MaliciousWebsite;
 import tech.noetzold.repository.MaliciousWebsiteRepository;
 
@@ -26,7 +25,7 @@ public class MaliciousWebsiteService {
         PanacheQuery<MaliciousWebsite> query = maliciousWebsiteRepository.findAll(sort);
 
         int offset = (page - 1) * size;
-        return query.range(offset, size*page).list();
+        return query.range(offset, (size-1)*page).list();
     }
 
     @Transactional
