@@ -25,7 +25,7 @@ public class MaliciousPortService {
         PanacheQuery<MaliciousPort> query = maliciousPortRepository.findAll(sort);
 
         int offset = (page - 1) * size;
-        return query.range(offset, size*page).list();
+        return query.range(offset, (size-1)*page).list();
     }
 
     @Transactional
