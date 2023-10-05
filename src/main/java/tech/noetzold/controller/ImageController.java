@@ -36,7 +36,7 @@ public class ImageController {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed("admin")
+    @RolesAllowed({"admin", "user"})
     public Response getImagemById(@PathParam("id") long id) {
         try {
             if (id <= 0) {
