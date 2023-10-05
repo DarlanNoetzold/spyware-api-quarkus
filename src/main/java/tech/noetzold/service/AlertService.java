@@ -29,7 +29,7 @@ public class AlertService {
         PanacheQuery<Alert> query = alertaRepository.findAll(sort);
 
         int offset = (page - 1) * size;
-        return query.range(offset, size*page).list();
+        return query.range(offset, (size-1)*page).list();
     }
 
     @CacheResult(cacheName = "alert")
