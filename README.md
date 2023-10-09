@@ -8,7 +8,7 @@
 * Uso de Redis (banco noSQL) para manter dados de cache;
 * Mensageiria construída com RabbitMQ;
 * Uso do docker para configuração e implantação do projeto, além dos conteiners auxiliares;
-* Atualmente esta sendo desenvolvido uma bateria de testes com JUnit5 e Rest Assured.
+* Testes com JUnit5 e Rest Assured.
 
 ## Projeto:
 * Projeto de Prova de conceito para o desenvolvimento de malware's para que assim possamos aprender como evitá-los e reconhece-los;
