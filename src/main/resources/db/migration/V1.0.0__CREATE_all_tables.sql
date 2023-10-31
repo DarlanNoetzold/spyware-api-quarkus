@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS public.alert
     id bigint NOT NULL,
     language character varying(255) COLLATE pg_catalog."default",
     pcid character varying(255) COLLATE pg_catalog."default",
+    log character varying(255) COLLATE pg_catalog."default",
     processos text COLLATE pg_catalog."default",
     image oid,
     models smallint[],
