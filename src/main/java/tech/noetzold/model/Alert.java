@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +22,9 @@ public class Alert implements Serializable {
 
     @NotNull
     private String pcId;
+
+    @NotNull
+    private String log;
 
     @NotNull
     @Lob
