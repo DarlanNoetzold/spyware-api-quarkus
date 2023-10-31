@@ -25,7 +25,7 @@ public class AlertConsumer {
     public Alert process(Alert incomingAlert) {
         incomingAlert.setDataCadastro(Calendar.getInstance());
         alertService.saveAlert(incomingAlert);
-        logger.info("Create Alert " + incomingAlert.getId() + " for user " + incomingAlert.getPcId() + " generate by " + incomingAlert.getImage().getProductImg());
+        logger.info("Create Alert " + incomingAlert.getId() + " for user " + incomingAlert.getPcId());
 
         return incomingAlert;
     }
