@@ -57,34 +57,20 @@ ALTER TABLE IF EXISTS public.maliciousport
     OWNER to postgres;
 
 
+-- Table: public.alert
 
-
-CREATE TABLE IF NOT EXISTS public.image
-(
-    id bigint NOT NULL,
-    productimg character varying(255) COLLATE pg_catalog."default",
-    base64img oid,
-    CONSTRAINT image_pkey PRIMARY KEY (id)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.image
-    OWNER to postgres;
-
+-- DROP TABLE IF EXISTS public.alert;
 
 CREATE TABLE IF NOT EXISTS public.alert
 (
     data_cadastro date NOT NULL,
     id bigint NOT NULL,
-    image_id bigint,
+    language character varying(255) COLLATE pg_catalog."default",
     pcid character varying(255) COLLATE pg_catalog."default",
-    processos character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT alert_pkey PRIMARY KEY (id),
-    CONSTRAINT fko1li43seqcas6ro7r5hpl97ro FOREIGN KEY (image_id)
-        REFERENCES public.image (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    processos text COLLATE pg_catalog."default",
+    image oid,
+    models smallint[],
+    CONSTRAINT alert_pkey PRIMARY KEY (id)
 )
 
 TABLESPACE pg_default;
