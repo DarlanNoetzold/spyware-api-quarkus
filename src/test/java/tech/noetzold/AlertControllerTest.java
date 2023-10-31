@@ -91,9 +91,7 @@ public class AlertControllerTest {
     public void testSaveAlert() {
         JsonObject json = Json.createObjectBuilder()
                 .add("pcId", "somePcId")
-                .add("image", Json.createObjectBuilder()
-                        .add("id", 1)
-                        .build())
+                .add("image", "teste")
                 .build();
 
         given()
