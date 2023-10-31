@@ -2,6 +2,7 @@ package tech.noetzold.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.persistence.*;
@@ -24,9 +25,8 @@ public class Alert implements Serializable {
     private String pcId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "image_id")
-    private Image image;
+    @Lob
+    private byte[] image;
 
     @Column(columnDefinition = "TEXT")
     private String processos;
@@ -34,6 +34,10 @@ public class Alert implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "data_cadastro", nullable = false)
     private Calendar dataCadastro;
+
+    private List<ModelDetects> models;
+
+    private String language;
 
     @Override
     public int hashCode() {
