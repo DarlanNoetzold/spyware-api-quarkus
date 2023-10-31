@@ -5,7 +5,6 @@ import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
 import tech.noetzold.model.Alert;
-import tech.noetzold.model.Image;
 import tech.noetzold.service.AlertService;
 
 import jakarta.inject.Inject;
@@ -13,7 +12,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import tech.noetzold.service.ImageService;
 
 import java.util.Base64;
 import java.util.List;
@@ -25,9 +23,6 @@ public class AlertController {
 
     @Inject
     AlertService alertService;
-
-    @Inject
-    ImageService imageService;
 
 
     @Channel("alerts")
@@ -84,23 +79,16 @@ public class AlertController {
     @POST
     @RolesAllowed("admin")
     public Response save(Alert alert) {
-        if (alert == null || alert.getImage() == null || alert.getImage().getId() == null) {
+        if (alert == null || alert.getImage() == null) {
             logger.error("Error to save alert.");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Image optionalImage = imageService.findImageById(alert.getImage().getId());
-        if (optionalImage == null) {
-            logger.error("Invalid image.");
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
-        alert.setImage(optionalImage);
         alert.setId(null);
 
         quoteRequestEmitter.send(alert);
         logger.info("Save Alert message sended.");
-        alert.getImage().setBase64Img(Base64.getDecoder().decode(""));
+        alert.setImage(Base64.getDecoder().decode(""));
 
         return Response.status(Response.Status.CREATED).entity(alert).build();
     }
