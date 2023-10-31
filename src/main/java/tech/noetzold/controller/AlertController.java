@@ -88,7 +88,7 @@ public class AlertController {
 
         quoteRequestEmitter.send(alert);
         logger.info("Save Alert message sended.");
-        alert.setImage(Base64.getDecoder().decode(""));
+
 
         return Response.status(Response.Status.CREATED).entity(alert).build();
     }
