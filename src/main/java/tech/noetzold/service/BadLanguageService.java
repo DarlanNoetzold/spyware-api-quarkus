@@ -12,7 +12,6 @@ import tech.noetzold.repository.BadLanguageRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 @ApplicationScoped
 public class BadLanguageService {
 
