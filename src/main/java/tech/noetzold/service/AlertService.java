@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import tech.noetzold.model.Alert;
 import tech.noetzold.repository.AlertRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +57,12 @@ public class AlertService {
     @Transactional
     public void deleteAlertaById(Long id) {
         alertaRepository.deleteById(id);
+    }
+
+    public List<Alert> findAllByCompany(int page, int size, Long company) {
+        Page pageAlert = Page.of(page, size);
+        List<Alert> results = alertaRepository.find("company", company).page(pageAlert).list();
+        results.sort(Comparator.comparing(Alert::getDataCadastro));
+        return results;
     }
 }
