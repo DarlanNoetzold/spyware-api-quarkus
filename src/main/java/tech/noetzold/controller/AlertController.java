@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import tech.noetzold.service.CompanyService;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class AlertController {
     @Inject
     AlertService alertService;
 
+    @Inject
+    CompanyService companyService;
 
     @Channel("alerts")
     Emitter<Alert> quoteRequestEmitter;
@@ -32,7 +35,7 @@ public class AlertController {
     @GET
     @RolesAllowed("admin")
     public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("company") Long company) {
-        if (page <= 0 || size <= 0) {
+        if (page < 0 || size <= 0) {
             logger.error("Invalid page: " + page +" or size: "+ size);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
