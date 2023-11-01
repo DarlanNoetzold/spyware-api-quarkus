@@ -32,12 +32,12 @@ public class AlertController {
 
     @GET
     @RolesAllowed("admin")
-    public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("sortBy") String sortBy) {
+    public Response getAll(@QueryParam("page") int page, @QueryParam("size") int size, @QueryParam("company") Long company) {
         if (page <= 0 || size <= 0) {
             logger.error("Invalid page: " + page +" or size: "+ size);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        List<Alert> alerts = alertService.findAll(page, size,sortBy);
+        List<Alert> alerts = alertService.findAllByCompany(page, size, company);
         logger.info("Returned alerts quantity: " + alerts.size());
         return Response.ok(alerts).build();
     }
