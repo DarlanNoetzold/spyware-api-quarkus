@@ -63,17 +63,16 @@ ALTER TABLE IF EXISTS public.maliciousport
 CREATE TABLE IF NOT EXISTS public.company
 (
     registerdate date,
-    id bigint NOT NULL,
+    companyid bigint NOT NULL,
     document character varying(255) COLLATE pg_catalog."default",
     name character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT company_pkey PRIMARY KEY (id)
+    CONSTRAINT company_pkey PRIMARY KEY (companyid)
 )
 
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.company
     OWNER to postgres;
-
 
 -- Table: public.alert
 
@@ -82,7 +81,7 @@ ALTER TABLE IF EXISTS public.company
 CREATE TABLE IF NOT EXISTS public.alert
 (
     data_cadastro date NOT NULL,
-    company bigint,
+    companyid bigint,
     id bigint NOT NULL,
     language character varying(255) COLLATE pg_catalog."default",
     log character varying(255) COLLATE pg_catalog."default",
@@ -91,8 +90,8 @@ CREATE TABLE IF NOT EXISTS public.alert
     image oid,
     models smallint[],
     CONSTRAINT alert_pkey PRIMARY KEY (id),
-    CONSTRAINT fkk167ueux0ac7f5xybf190tgkg FOREIGN KEY (company)
-        REFERENCES public.company (id) MATCH SIMPLE
+    CONSTRAINT fk6ee3hodgrifrtm0lmp019i8ej FOREIGN KEY (companyid)
+        REFERENCES public.company (companyid) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
