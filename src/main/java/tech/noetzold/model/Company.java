@@ -16,7 +16,7 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @SequenceGenerator(name = "sequence", sequenceName = "sequence")
-    private Long id;
+    private Long companyId;
 
     private String name;
 
