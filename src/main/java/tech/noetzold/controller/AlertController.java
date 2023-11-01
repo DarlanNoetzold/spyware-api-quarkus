@@ -13,7 +13,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.Base64;
 import java.util.List;
 
 @Path("/alert")
