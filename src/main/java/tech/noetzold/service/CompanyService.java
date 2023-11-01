@@ -31,7 +31,6 @@ public class CompanyService {
         return query.range(offset, (size-1)*page).list();
     }
 
-    @CacheResult(cacheName = "alert")
     @Transactional
     public Company findCompanyById(Long id) {
         Optional<Company> optionalCompany = companyRepository.findByIdOptional(id);
@@ -39,8 +38,6 @@ public class CompanyService {
     }
 
     @Transactional
-    @CacheInvalidateAll(cacheName = "listalert")
-    @CacheInvalidateAll(cacheName = "alert")
     public Company saveCompany(Company alert) {
         companyRepository.persist(alert);
         return alert;
@@ -48,11 +45,11 @@ public class CompanyService {
 
     @Transactional
     public Company updateCompany(Company updatedCompany) {
-        if (updatedCompany == null || updatedCompany.getId() == null) {
+        if (updatedCompany == null || updatedCompany.getCompanyId() == null) {
             throw new WebApplicationException("Invalid data for Company update", Response.Status.BAD_REQUEST);
         }
 
-        Company existingCompany = findCompanyById(updatedCompany.getId());
+        Company existingCompany = findCompanyById(updatedCompany.getCompanyId());
         if (existingCompany == null) {
             throw new WebApplicationException("Company not found", Response.Status.NOT_FOUND);
         }
