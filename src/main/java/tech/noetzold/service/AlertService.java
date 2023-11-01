@@ -11,6 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import tech.noetzold.model.Alert;
+import tech.noetzold.model.Company;
 import tech.noetzold.repository.AlertRepository;
 
 import java.util.Comparator;
@@ -59,10 +60,8 @@ public class AlertService {
         alertaRepository.deleteById(id);
     }
 
-    public List<Alert> findAllByCompany(int page, int size, Long company) {
-        Page pageAlert = Page.of(page, size);
-        List<Alert> results = alertaRepository.find("company", company).page(pageAlert).list();
-        results.sort(Comparator.comparing(Alert::getDataCadastro));
-        return results;
+    @Transactional
+    public List<Alert> findAllByCompany(int page, int size, Long companyId) {
+        return alertaRepository.findByCompany(page, size, companyId);
     }
 }
