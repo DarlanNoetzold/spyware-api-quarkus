@@ -41,7 +41,7 @@ public class MaliciousWebsiteService {
     }
 
     @Transactional
-    public MaliciousWebsite updateMaliciousProcess(MaliciousWebsite updatedMaliciousWebsite) {
+    public MaliciousWebsite updateMaliciousWebsite(MaliciousWebsite updatedMaliciousWebsite) {
         if (updatedMaliciousWebsite == null || updatedMaliciousWebsite.getId() == null) {
             throw new WebApplicationException("Invalid data for MaliciousProcess update", Response.Status.BAD_REQUEST);
         }
