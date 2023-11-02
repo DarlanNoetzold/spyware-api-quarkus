@@ -2,15 +2,21 @@ package tech.noetzold.controller;
 
 import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import tech.noetzold.model.BadLanguage;
 import tech.noetzold.service.BadLanguageService;
 
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 @Path("/language")
 @Produces(MediaType.APPLICATION_JSON)
@@ -62,6 +68,7 @@ public class BadLanguageController {
         BadLanguage existingBadLanguage = badLanguageService.findBadLanguageByWord(badLanguage.getWord());
 
         if (existingBadLanguage != null) {
+            logger.info("The badLanguage: " + badLanguage.getWord() + "already exists.");
             return Response.ok(existingBadLanguage).status(Response.Status.CREATED).build();
         }
 
@@ -98,4 +105,43 @@ public class BadLanguageController {
         logger.info("Remove badLanguage: " + id);
         return Response.status(Response.Status.ACCEPTED).entity(new BadLanguage(0L, "BadLanguage removed")).build();
     }
+
+    @POST
+    @Path("/upload")
+    @RolesAllowed("admin")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadBadLanguageFile(@MultipartForm MultipartFormDataInput input) {
+        try {
+            Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+            List<InputPart> inputParts = uploadForm.get("file");
+
+            for (InputPart inputPart : inputParts) {
+                String content = inputPart.getBody(String.class, null);
+                String[] lines = content.split(",");
+
+                for (String word : lines) {
+                    if (!word.isBlank()) {
+
+                        BadLanguage badLanguage = new BadLanguage();
+                        badLanguage.setWord(word);
+
+                        BadLanguage existingBadLanguage = badLanguageService.findBadLanguageByWord(badLanguage.getWord());
+
+                        if (existingBadLanguage != null) {
+                            logger.info("The badLanguage: " + badLanguage.getWord() + " already exists.");
+                        }
+
+                        badLanguageService.saveBadLanguage(badLanguage);
+                        logger.info("Create badLanguage: " + badLanguage.getWord());
+                    }
+                }
+            }
+            logger.info("BadLanguages saved by file");
+            return Response.ok("BadLanguage entries added from file").build();
+        } catch (Exception e) {
+            logger.error("Error to save badLanguages by file.");
+            return Response.serverError().entity("Error uploading and processing file").build();
+        }
+    }
+
 }
