@@ -2,6 +2,10 @@ package tech.noetzold.controller;
 
 import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.model.MaliciousProcess;
 import tech.noetzold.service.MaliciousProcessService;
 
@@ -10,6 +14,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Path("/process")
 @Produces(MediaType.APPLICATION_JSON)
@@ -95,5 +101,43 @@ public class MaliciousProcessController {
         maliciousProcessService.deleteProcessById(id);
         logger.info("Remove MaliciousProcess: " + id);
         return Response.status(Response.Status.ACCEPTED).entity(new MaliciousProcess(0L, "MaliciousProcess removed")).build();
+    }
+
+    @POST
+    @Path("/upload")
+    @RolesAllowed("admin")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadMaliciousProcessFile(@MultipartForm MultipartFormDataInput input) {
+        try {
+            Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+            List<InputPart> inputParts = uploadForm.get("file");
+
+            for (InputPart inputPart : inputParts) {
+                String content = inputPart.getBody(String.class, null);
+                String[] lines = content.split(",");
+
+                for (String nameExe : lines) {
+                    if (!nameExe.isBlank()) {
+
+                        MaliciousProcess maliciousProcess = new MaliciousProcess();
+                        maliciousProcess.setNameExe(nameExe);
+
+                        MaliciousProcess existingMaliciousProcess = maliciousProcessService.findMaliciousProcessByNameExe(maliciousProcess.getNameExe());
+
+                        if (existingMaliciousProcess != null) {
+                            logger.info("The maliciousProcess: " + maliciousProcess.getNameExe() + " already exists.");
+                        }
+
+                        maliciousProcessService.saveMaliciousProcess(maliciousProcess);
+                        logger.info("Create maliciousProcess: " + maliciousProcess.getNameExe());
+                    }
+                }
+            }
+            logger.info("MaliciousProcesss saved by file");
+            return Response.ok("MaliciousProcess entries added from file").build();
+        } catch (Exception e) {
+            logger.error("Error to save maliciousProcesss by file.");
+            return Response.serverError().entity("Error uploading and processing file").build();
+        }
     }
 }
