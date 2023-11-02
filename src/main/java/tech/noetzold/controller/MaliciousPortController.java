@@ -2,6 +2,10 @@ package tech.noetzold.controller;
 
 import jakarta.annotation.security.RolesAllowed;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import tech.noetzold.model.MaliciousPort;
 import tech.noetzold.model.MaliciousPort;
 import tech.noetzold.service.MaliciousPortService;
 
@@ -10,6 +14,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Path("/port")
 @Produces(MediaType.APPLICATION_JSON)
@@ -103,4 +109,43 @@ public class MaliciousPortController {
         maliciousPortService.deleteMaliciousPortById(id);
         return Response.status(Response.Status.ACCEPTED).entity(new MaliciousPort(0L, "MaliciousPort removed")).build();
     }
+
+    @POST
+    @Path("/upload")
+    @RolesAllowed("admin")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadMaliciousPortFile(@MultipartForm MultipartFormDataInput input) {
+        try {
+            Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+            List<InputPart> inputParts = uploadForm.get("file");
+
+            for (InputPart inputPart : inputParts) {
+                String content = inputPart.getBody(String.class, null);
+                String[] lines = content.split(",");
+
+                for (String vulnarableBanners : lines) {
+                    if (!vulnarableBanners.isBlank()) {
+
+                        MaliciousPort maliciousPort = new MaliciousPort();
+                        maliciousPort.setVulnarableBanners(vulnarableBanners);
+
+                        MaliciousPort existingMaliciousPort = maliciousPortService.findMaliciousPortByVulnarableBanners(maliciousPort.getVulnarableBanners());
+
+                        if (existingMaliciousPort != null) {
+                            logger.info("The maliciousPort: " + maliciousPort.getVulnarableBanners() + " already exists.");
+                        }
+
+                        maliciousPortService.saveMaliciousPort(maliciousPort);
+                        logger.info("Create maliciousPort: " + maliciousPort.getVulnarableBanners());
+                    }
+                }
+            }
+            logger.info("MaliciousPorts saved by file");
+            return Response.ok("MaliciousPort entries added from file").build();
+        } catch (Exception e) {
+            logger.error("Error to save maliciousPorts by file.");
+            return Response.serverError().entity("Error uploading and processing file").build();
+        }
+    }
+    
 }
