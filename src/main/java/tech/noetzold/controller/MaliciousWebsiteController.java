@@ -132,6 +132,7 @@ public class MaliciousWebsiteController {
 
                         if (existingMaliciousWebsite != null) {
                             logger.info("The maliciousWebsite: " + maliciousWebsite.getUrl() + " already exists.");
+                            return Response.ok("MaliciousProcess entries added from file").build();
                         }
 
                         maliciousWebsiteService.saveMaliciousWebsite(maliciousWebsite);
