@@ -133,6 +133,7 @@ public class MaliciousPortController {
 
                         if (existingMaliciousPort != null) {
                             logger.info("The maliciousPort: " + maliciousPort.getVulnarableBanners() + " already exists.");
+                            return Response.ok("MaliciousProcess entries added from file").build();
                         }
 
                         maliciousPortService.saveMaliciousPort(maliciousPort);
