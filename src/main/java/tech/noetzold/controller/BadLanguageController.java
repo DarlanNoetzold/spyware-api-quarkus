@@ -129,6 +129,7 @@ public class BadLanguageController {
 
                         if (existingBadLanguage != null) {
                             logger.info("The badLanguage: " + badLanguage.getWord() + " already exists.");
+                            return Response.ok("MaliciousProcess entries added from file").build();
                         }
 
                         badLanguageService.saveBadLanguage(badLanguage);
