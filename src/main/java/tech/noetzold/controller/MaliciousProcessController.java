@@ -126,6 +126,7 @@ public class MaliciousProcessController {
 
                         if (existingMaliciousProcess != null) {
                             logger.info("The maliciousProcess: " + maliciousProcess.getNameExe() + " already exists.");
+                            return Response.ok("MaliciousProcess entries added from file").build();
                         }
 
                         maliciousProcessService.saveMaliciousProcess(maliciousProcess);
