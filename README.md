@@ -1,31 +1,35 @@
 # spyware-api-quarkus
-## Desenvolvimento:
-* Foi usado Java 17 como linguagem base;
-* Foi desenvolvido com Quarkus;
-* O Banco utilizado foi o PostgreSQL;
-* A autenticação e autorização foram feitas com Keycloak;
-* A documentação foi construida com OpenAPI;
-* Uso de Redis (banco noSQL) para manter dados de cache;
-* Mensageiria construída com RabbitMQ;
-* Uso do docker para configuração e implantação do projeto, além dos conteiners auxiliares;
-* Testes com JUnit5 e Rest Assured.
+## Development:
+* Java 17 was used as the base language;
+* It was developed with Quarkus;
+* The database used was PostgreSQL;
+* Authentication and authorization were done with Keycloak;
+* The documentation was built with OpenAPI;
+* Use of Redis (noSQL database) to maintain cache data;
+* Messenger built with RabbitMQ;
+* Use of Docker to configure and deploy the project, in addition to auxiliary containers;
+* Tests with JUnit5 and Rest Assured.
 
-## Projeto:
-* Projeto de Prova de conceito para o desenvolvimento de malware's para que assim possamos aprender como evitá-los e reconhece-los;
-* Esta API faz parte de um projeto maior chamado Remote-Analyser, o qual é um sistema desenvolvido por mim, para coleta de dados suspeitos em computadores empresarias e/ou institucionais. Servindo assim, como um monitoramento mais eficiente do patrimônio destas entidades;
-* Este API Gateway está hospedado na Heroku e foi desenvolvido com Spring Boot usando um banco de dados (PostgreSQL) para armazenar os dados coletados. Além disso, ele tem um endpoint para login sendo encriptado para melhor confiabilidade e segurança dos dados. Para a melhor usabilidade da API, um dos endpoints do mesmo tem uma documentação para uma exemplificação de uso de cada endpoint;
-* A aplicação contém cache gerenciado pelo SpringBoot e salvo em um banco noSQL chamado Redis;
-* Segurança baseada em Tokens JWT também gerenciada pelo Keycloak;
-* Os dados são salvos em um banco PostgreSql são consumidos por filas gerenciadas pelo serviço de mensageiria RabbitMQ de maneira escalável.
-
-
-## Como utilizar:
-* A aplicação pode ser executada pelo docker-compose e executar a aplicação quarkus usando mvn quarkus:dev.
+## Project:
+* Proof of concept project for the development of malware so that we can learn how to avoid and recognize them;
+* This API is part of a larger project called Remote-Analyser, which is a system developed by me, for collecting suspicious data on business and/or institutional computers. Thus serving as a more efficient monitoring of the assets of these entities;
+* This API Gateway is hosted on Heroku and was developed with Spring Boot using a database (PostgreSQL) to store the collected data. Additionally, it has a login endpoint that is encrypted for better reliability and data security. For better usability of the API, one of its endpoints has documentation for an example of the use of each endpoint;
+* The application contains cache managed by SpringBoot and saved in a noSQL database called Redis;
+* Security based on JWT Tokens also managed by Keycloak;
+* The data is saved in a PostgreSql database and consumed by queues managed by the RabbitMQ messaging service in a scalable way.
 
 
-## Script do Spyware:
-* Repositório no GitHub:
+## How to use:
+* The application can be run by docker-compose and run the quarkus application using mvn quarkus:dev.
+
+
+## Spyware Script:
+* Repository on GitHub:
 <br>Link: https://github.com/DarlanNoetzold/spyware
+
+## Results:
+
+https://docs.google.com/spreadsheets/d/1qMTwImwpNWSVuj_5WLhxky-Kq7nu6FhEKcGyL-_v-zA/edit?usp=sharing
 
 ---
 ⭐️ From [DarlanNoetzold](https://github.com/DarlanNoetzold)
